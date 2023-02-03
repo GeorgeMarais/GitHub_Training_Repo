@@ -1,33 +1,25 @@
 name: Auto_Deploy
-on: 
- push:
-  branches: [ "main" ]
-          
-  paths-ignore:
-      - .github/**
-        
- pull_request:
-   branches: [ "main" ]
-   
- schedule:
-      - cron: '05 16 * * SUN'
-
- workflow_dispatch:
+on:
+  push:
+    branches: [ main ]
+    paths-ignore: [.github/**]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '15 6 * * 0'
+  workflow_dispatch:
 
 jobs:
-  state_event_type:
+  Build:
     runs-on: ubuntu-latest
     steps:
-    - name: if_push
-      if: github.event.push
-      run: |
-        echo A push request
-        echo main
-    - name: if_pull
-      if: github.event.pull_request
-      run: |
-        echo A pull request
-        echo main
-    - name: disp-list
-      run: |
-        -ls a
+      - run: |
+          echo "🎉 The job was triggered by event: ${{ github.event_name }}"
+          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ."
+        
+      - uses: actions/checkout@v3.0.2
+
+      - name: List files in the repository
+        run: |
+          echo "The repository ${{ github.repository }} contains the following files:"
+          tree
