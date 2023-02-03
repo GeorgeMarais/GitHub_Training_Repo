@@ -1,0 +1,33 @@
+name: Auto_Deploy
+on: 
+ push:
+  branches: [ "main" ]
+          
+  paths-ignore:
+      - .github/**
+        
+ pull_request:
+   branches: [ "main" ]
+   
+ schedule:
+      - cron: '05 16 * * SUN'
+
+ workflow_dispatch:
+
+jobs:
+  state_event_type:
+    runs-on: ubuntu-latest
+    steps:
+    - name: if_push
+      if: github.event.push
+      run: |
+        echo A push request
+        echo main
+    - name: if_pull
+      if: github.event.pull_request
+      run: |
+        echo A pull request
+        echo main
+    - name: disp-list
+      run: |
+        -ls a
